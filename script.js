@@ -49,3 +49,55 @@ function getRandomSymbol() {
 	const symbols = '~!@#$%^&*()_+{}":?><;.,';
 	return symbols[Math.floor(Math.random() * symbols.length)];
 }
+
+
+const resultEl = document.getElementById("result");
+const lengthEl = document.getElementById("slider");
+
+// representing the options to create differnt type of password based on user
+const uppercaseEl = document.getElementById("uppercase");
+const lowercaseEl = document.getElementById("lowercase");
+const numberEl = document.getElementById("number");
+const symbolEl = document.getElementById("symbol");
+
+// button to generate password
+const generateBtn = document.getElementById("generate");
+// button to copy text
+const copyBtn = document.getElementById("copy-btn");
+// Result viewbox container
+const resultContainer = document.querySelector(".result");
+// text showed after generate button is clicked
+const copyInfo = document.querySelector(".result__info.right");
+// text after copy button is clicked
+const copiedInfo = document.querySelector(".result__info.left");
+
+
+let generatedPassword = false;
+
+
+let resultContainerBound = {
+	left: resultContainer.getBoundingClientRect().left,
+	top: resultContainer.getBoundingClientRect().top,
+};
+
+resultContainer.addEventListener("mousemove", e => {
+	resultContainerBound = {
+		left: resultContainer.getBoundingClientRect().left,
+		top: resultContainer.getBoundingClientRect().top,
+	};
+	if(generatedPassword){
+		copyBtn.style.opacity = '1';
+		copyBtn.style.pointerEvents = 'all';
+		copyBtn.style.setProperty("--x", `${e.x - resultContainerBound.left}px`);
+		copyBtn.style.setProperty("--y", `${e.y - resultContainerBound.top}px`);
+	}else{
+		copyBtn.style.opacity = '0';
+		copyBtn.style.pointerEvents = 'none';
+	}
+});
+window.addEventListener("resize", e => {
+	resultContainerBound = {
+		left: resultContainer.getBoundingClientRect().left,
+		top: resultContainer.getBoundingClientRect().top,
+	};
+});
