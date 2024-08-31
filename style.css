@@ -263,3 +263,46 @@ $range-label-width: 60px !default;
 	}
 }
 }
+
+
+.btn.generate {
+	user-select: none;
+	position: relative;
+	width: 100%;
+	height: 50px;
+	margin: 10px 0;
+	border-radius: $field-border-radius;
+	color: #fff;
+	border: none;
+	background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	letter-spacing: 1px;
+	font-weight: bold;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: all 150ms ease;
+	&:active {
+		transform: translateY(-3%);
+		box-shadow: 0 4px 8px rgba(255, 255, 255, 0.08);
+	}
+}
+
+
+
+.support{
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	padding: 10px;
+	display: flex;
+}
+a{
+	margin: 0 20px;
+	color: #fff;
+	font-size: 2rem;
+	transition: all 400ms ease;
+}
+
+a:hover{
+	color: #222;
+}
+
