@@ -101,3 +101,71 @@ window.addEventListener("resize", e => {
 		top: resultContainer.getBoundingClientRect().top,
 	};
 });
+
+copyBtn.addEventListener("click", () => {
+	const textarea = document.createElement("textarea");
+	const password = resultEl.innerText;
+	if (!password || password == "CLICK GENERATE") {
+		return;
+	}
+	textarea.value = password;
+	document.body.appendChild(textarea);
+	textarea.select();
+	document.execCommand("copy");
+	textarea.remove();
+
+	copyInfo.style.transform = "translateY(200%)";
+	copyInfo.style.opacity = "0";
+	copiedInfo.style.transform = "translateY(0%)";
+	copiedInfo.style.opacity = "0.75";
+});
+
+generateBtn.addEventListener("click", () => {
+	const length = +lengthEl.value;
+	const hasLower = lowercaseEl.checked;
+	const hasUpper = uppercaseEl.checked;
+	const hasNumber = numberEl.checked;
+	const hasSymbol = symbolEl.checked;
+	generatedPassword = true;
+	resultEl.innerText = generatePassword(length, hasLower, hasUpper, hasNumber, hasSymbol);
+	copyInfo.style.transform = "translateY(0%)";
+	copyInfo.style.opacity = "0.75";
+	copiedInfo.style.transform = "translateY(200%)";
+	copiedInfo.style.opacity = "0";
+});
+
+// Function responsible to generate password and then returning it.
+function generatePassword(length, lower, upper, number, symbol) {
+	let generatedPassword = "";
+	const typesCount = lower + upper + number + symbol;
+	const typesArr = [{ lower }, { upper }, { number }, { symbol }].filter(item => Object.values(item)[0]);
+	if (typesCount === 0) {
+		return "";
+	}
+	for (let i = 0; i < length; i++) {
+		typesArr.forEach(type => {
+			const funcName = Object.keys(type)[0];
+			generatedPassword += randomFunc[funcName]();
+		});
+	}
+	return generatedPassword.slice(0, length)
+	.split('').sort(() => Math.random() - 0.5)
+	.join('');
+}
+
+// checkboxes state, at least one needs to be selected
+function disableOnlyCheckbox(){
+	let totalChecked = [uppercaseEl, lowercaseEl, numberEl, symbolEl].filter(el => el.checked)
+	totalChecked.forEach(el => {
+		if(totalChecked.length == 1){
+			el.disabled = true;}
+		else{
+			el.disabled = false;}
+	})
+}
+
+[uppercaseEl, lowercaseEl, numberEl, symbolEl].forEach(el => {
+	el.addEventListener('click', () => {
+		disableOnlyCheckbox()
+	})
+})
